@@ -7,6 +7,7 @@ import 'package:flutter_blogs_tassk/presentation/shared/widgets/navigation_routi
 import 'package:flutter_blogs_tassk/presentation/shared/widgets/text_field_shared_widget.dart';
 import 'package:flutter_blogs_tassk/presentation/shared/widgets/text_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../../domain/posts_provider/posts_provider.dart';
@@ -120,15 +121,34 @@ class _EditBlogPageState extends State<EditBlogPage> {
               buttonColor: AppColor.appBarbackGroundColor,
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  postsParams.editPosts(
-                    postId: widget.posts.id,
-                    title: titleController.text,
-                    body: bodyController.text,
-                    userId: widget.posts.userId,
-                  );
-                  context.read<PostsProvider>().getPosts(isStart: false);
-
-                  // NavigationRouting.navigateionPop(context: context);
+                  if (widget.posts.title != titleController.text ||
+                      widget.posts.body != bodyController.text) {
+                    postsParams.editPosts(
+                      postId: widget.posts.id,
+                      title: titleController.text,
+                      body: bodyController.text,
+                      userId: widget.posts.userId,
+                    );
+                    context.read<PostsProvider>().getPosts(isStart: false);
+                    Fluttertoast.showToast(
+                      msg: 'Blog Edited Successfully',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: AppColor.primaryColor,
+                      textColor: AppColor.whiteColor,
+                      fontSize: 14.sp,
+                    );
+                    NavigationRouting.navigateionPop(context: context);
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: 'Please Edit Blog First',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: AppColor.primaryColor,
+                      textColor: AppColor.whiteColor,
+                      fontSize: 14.sp,
+                    );
+                  }
                 }
               },
             ),

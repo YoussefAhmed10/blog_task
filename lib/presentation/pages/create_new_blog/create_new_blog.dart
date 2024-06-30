@@ -7,6 +7,7 @@ import 'package:flutter_blogs_tassk/presentation/shared/widgets/navigation_routi
 import 'package:flutter_blogs_tassk/presentation/shared/widgets/text_field_shared_widget.dart';
 import 'package:flutter_blogs_tassk/presentation/shared/widgets/text_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class CreateNewBlogScreen extends StatefulWidget {
@@ -55,6 +56,7 @@ class _CreateNewBlogScreenState extends State<CreateNewBlogScreen> {
         padding: EdgeInsets.only(
           top: 16.0.h,
           left: 18.w,
+          right: 18.w,
           bottom: 11.h,
         ),
         child: SingleChildScrollView(
@@ -128,6 +130,14 @@ class _CreateNewBlogScreenState extends State<CreateNewBlogScreen> {
                     )
                         .then((value) {
                       context.read<PostsProvider>().getPosts(isStart: false);
+                      Fluttertoast.showToast(
+                        msg: 'Blog Has been created successfully',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: AppColor.primaryColor,
+                        textColor: AppColor.whiteColor,
+                        fontSize: 14.sp,
+                      );
                       NavigationRouting.navigateionPop(context: context);
                     });
                   }
